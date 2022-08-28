@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Tilty from "react-tilty";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import {registerRoute} from "../utils/APIRoutes";
+
 
 function Register() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -17,13 +20,27 @@ function Register() {
     e.preventDefault();
     if (handleValidate()) {
       const { password, email, username } = values;
-      const { data } = await axios.get("/login", {
+      axios.defaults.withCredentials =true;
+      const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
+        withCredentials:true
       });
+      if(data.status===false){
+        toast.error(data.msg,toastOptions)
+      }
+      if(data.status===true){
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+        navigate('/');
+      }
     }
   };
+  useEffect(()=>{
+    if(localStorage.getItem('chat-app-user')){
+      navigate('/')
+    }
+  },[])
   const toastOptions = {
     theme: "dark",
     draggable: "true",

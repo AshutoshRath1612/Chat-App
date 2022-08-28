@@ -1,17 +1,79 @@
-import React ,{useState} from "react";
+import React ,{useState,useEffect} from "react";
 import Tilty from "react-tilty";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import {loginRoute} from "../utils/APIRoutes";
 
 
 function Login() {
+  const navigate = useNavigate();
   const [values,setValues] = useState({
     username : "",
     password: "",
 })
-const handleSubmit = (e)=>{
+const handleSubmit = async(e)=>{
   e.preventDefault();
+    if (handleValidate()) {
+      const { password, username } = values;
+      axios.defaults.withCredentials =true;
+      const { data } = await axios.post(loginRoute, {
+        username,
+        password,
+        withCredentials:true
+      });
+      console.log(data)
+      if(data.status===false){
+        toast.error(data.msg,toastOptions)
+      }
+      if(data.status===true){
+        localStorage.setItem('chat-app-user', username);
+        navigate('/');
+      }
+    }
 }
+
+useEffect(()=>{
+  if(localStorage.getItem('chat-app-user')){
+    console.log(localStorage.getItem('chat-app-user'))
+    navigate('/')
+  }
+},[])
+const toastOptions = {
+  theme: "dark",
+  draggable: "true",
+  position: "top-right",
+  autoClose: "5000",
+  hideProgressBar: "false",
+};
+const handleValidate = () => {
+  const { password, username } = values;
+
+  if (password === "" && username === "") {
+    toast.warning("Please Fill this up to login");
+    return false;
+  }
+  if (password === "" || username === "") {
+
+    if (password === "")
+      toast.warning("Please enter the password", toastOptions);
+
+    if (username === "")
+      toast.warning("Please enter the username", toastOptions);
+
+    return false;
+  }
+   if (username.length < 4) {
+    toast.error("Username must be atleast of 4 character long", toastOptions);
+    return false;
+  } else if (password.length < 8) {
+    toast.error("Password must be 8 character long", toastOptions);
+    return false;
+  }
+  return true;
+};
 const handleChange = (e)=>{
   setValues({...values , [e.target.name] : e.target.value});
 }
@@ -19,19 +81,19 @@ const handleChange = (e)=>{
   return (
     <>
     <LoginForm>
-      <div class="formContainer">
-          <div class="background">
-            <div class="shape"></div>
-            <div class="shape"></div>
+      <div className="formContainer">
+          <div className="background">
+            <div className="shape"></div>
+            <div className="shape"></div>
           </div>
         <Tilty  reverse axis="x" scale={1.1} perspective={900} reset={true}>
           <form onSubmit={(e)=>handleSubmit(e)}>
             <h3>Login Here</h3>
 
-            <label for="username">Username</label>
+            <label htmlFor="username">Username</label>
             <input type="text" placeholder="Email or Phone" name="username" id="username" onChange={(e)=> handleChange(e)} />
 
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
             <input type="password" placeholder="Password" id="password" name="password" onChange={(e)=> handleChange(e)}  />
 
             <button type="submit">Log In</button>
@@ -43,6 +105,8 @@ const handleChange = (e)=>{
         </Tilty>
       </div>
     </LoginForm>
+    
+    <ToastContainer />
     </>
   );
 }
