@@ -18,18 +18,18 @@ const handleSubmit = async(e)=>{
   e.preventDefault();
     if (handleValidate()) {
       const { password, username } = values;
-      axios.defaults.withCredentials =true;
+      // axios.defaults.headers.post['Access-Control-Allow-Origin'] = "http://localhost:3000";
+      // axios.defaults.withCredentials =true;
       const { data } = await axios.post(loginRoute, {
         username,
         password,
-        withCredentials:true
       });
       console.log(data)
       if(data.status===false){
         toast.error(data.msg,toastOptions)
       }
       if(data.status===true){
-        localStorage.setItem('chat-app-user', username);
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
         navigate('/');
       }
     }

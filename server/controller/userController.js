@@ -10,7 +10,7 @@ const createToken = (id)=>{
     })
 }
 
-module.exports.register = async(req, res) => {
+module.exports.register = async(req, res,next) => {
     try{
         const { username, password, email } = req.body;
     const usernameCheck = await User.findOne({ username });
@@ -33,10 +33,10 @@ module.exports.register = async(req, res) => {
     return res.json({user , status:true})
     }
     catch(err){
-        res.json({err , status:false});
+       next(err);
     }
 }
-module.exports.login = async(req, res) => {
+module.exports.login = async(req, res,next) => {
     try{
         const { username, password } = req.body;
     const usernameCheck = await User.findOne({ username });
@@ -52,14 +52,40 @@ module.exports.login = async(req, res) => {
 
 
     delete usernameCheck.password;
-     return res.json({usernameCheck , status:true})
+     return res.json({user:usernameCheck , status:true})
     }
     catch(err){
-        res.json({err , status:false});
+        next(err);
+    }
+}
+
+module.exports.setavatar = async(req, res,next) => {
+    try{
+        const userId =req.params.id;
+        const avatarImage = req.body.image;
+        const userData = await User.findByIdAndUpdate(userId,{
+            isAvatarImageSet:true,
+            avatarImage,
+        })
+        return res.json({isSet:userData.isAvatarImageSet ,image:userData.avatarImage})
+
+    }catch(err){
+        next(err);
     }
 }
 
 module.exports.logout = (req,res)=>{
     res.cookie('jwt', "", {maxAge:1});
     res.redirect('/login');
+}
+
+module.exports.allusers = async(req,res,next)=>{
+    try{
+        const users = await User.find({_id:{$ne:req.params.id}}).select([
+            "email","username","avatarImage","_id"
+        ]);
+        return res.json(users);
+    }catch(err){
+        next(err)
+    }
 }
