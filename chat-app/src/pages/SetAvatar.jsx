@@ -55,10 +55,7 @@ const SetAvatar = () => {
         );
         const buffer = new Buffer(image.data);
         data.push(buffer.toString("base64"));
-<<<<<<< HEAD
-=======
         console.log(image)
->>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
       }
       setavatar(data);
       setIsLoading(false);
