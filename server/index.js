@@ -12,7 +12,11 @@ const app =express();
 
 const corsConfig = {
     credentials: true,
+<<<<<<< HEAD
     origin: true,
+=======
+    origin: "http://localhost:3000",
+>>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
 };
 app.use(cors(corsConfig));
 app.use(express.json())

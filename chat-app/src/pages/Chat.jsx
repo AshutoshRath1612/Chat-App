@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable react-hooks/exhaustive-deps */
+>>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
 import React, {useState ,useEffect ,useRef} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -27,6 +31,10 @@ function Chat() {
       }
     }
     fetchData();
+<<<<<<< HEAD
+=======
+    console.log("started")
+>>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
   },[]);
   
  
@@ -58,8 +66,15 @@ function Chat() {
   const handleChatChange = (chat)=>{
       setcurrentChat(chat);
   }
+<<<<<<< HEAD
   // console.log(currentChat)
   return (
+=======
+  console.log(isLoaded)
+  return (
+    <>
+    {isLoaded && (
+>>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
     <Container>
       <div className="container">
         <Contacts 
@@ -67,6 +82,10 @@ function Chat() {
         currentUser={currentUser} 
         changeChat={handleChatChange}/>
         {/* {console.log(currentChat , currentUser)} */}
+<<<<<<< HEAD
+=======
+       
+>>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
         { isLoaded &&
           currentChat === undefined ? (
             <Welcome currentUser={currentUser} />
@@ -76,6 +95,11 @@ function Chat() {
         }
       </div>
     </Container>
+<<<<<<< HEAD
+=======
+    )}
+    </>
+>>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
   )
 }
 
