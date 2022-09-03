@@ -11,6 +11,7 @@ import {registerRoute} from "../utils/APIRoutes";
 function Register() {
   const navigate = useNavigate();
   const [values, setValues] = useState({
+    name:"",
     username: "",
     email: "",
     password: "",
@@ -19,20 +20,20 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (handleValidate()) {
-      const { password, email, username } = values;
-      axios.defaults.withCredentials =true;
+      const { password, email, username ,name } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
-        withCredentials:true
+        name
       });
       if(data.status===false){
         toast.error(data.msg,toastOptions)
       }
       if(data.status===true){
-        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
-        navigate('/');
+        localStorage.setItem('jwt',data.token)
+        sessionStorage.setItem('chat-app-user', JSON.stringify(data.user));
+         navigate('/');
       }
     }
   };
@@ -49,13 +50,13 @@ function Register() {
     hideProgressBar: "false",
   };
   const handleValidate = () => {
-    const { password, email, confirmPassword, username } = values;
+    const { password, email, confirmPassword, username ,name } = values;
 
-    if (email === "" && password === "" && username === "") {
+    if (name==="" &&email === "" && password === "" && username === "") {
       toast.warning("Please Fill this up to register");
       return false;
     }
-    if (email === "" || password === "" || username === "") {
+    if (name===""||email === "" || password === "" || username === "") {
       if (email === "") toast.warning("Please enter a email", toastOptions);
 
       if (password === "")
@@ -63,6 +64,9 @@ function Register() {
 
       if (username === "")
         toast.warning("Please enter a username", toastOptions);
+
+      if (name === "")
+        toast.warning("Please enter a name", toastOptions);
 
       return false;
     }
@@ -72,6 +76,9 @@ function Register() {
       return false;
     } else if (username.length < 4) {
       toast.error("Username must be atleast of 4 character long", toastOptions);
+      return false;
+    } else if (name.length < 4) {
+      toast.error("Name must be atleast of 4 character long", toastOptions);
       return false;
     } else if (password.length < 8) {
       toast.error("Password must be 8 character long", toastOptions);
@@ -94,6 +101,14 @@ function Register() {
             <form onSubmit={(e) => handleSubmit(e)}>
               <h3>Sign Up Here</h3>
 
+              <label htmlFor="username">Name</label>
+              <input
+                type="text"
+                placeholder="Name"
+                name="name"
+                id="name"
+                onChange={(event) => handleChange(event)}
+              />
               <label htmlFor="username">Username</label>
               <input
                 type="text"
@@ -178,15 +193,15 @@ const FormContainer = styled.div`
   .shape:first-child {
     background: linear-gradient(#1845ad, #23a2f6);
     left: -80px;
-    top: -80px;
+    top: -160px;
   }
   .shape:last-child {
     background: linear-gradient(to right, #ff512f, #f09819);
     right: -30px;
-    bottom: -80px;
+    bottom: -188px;
   }
   form {
-    height: 650px;
+    height: 740px;
     width: 400px;
     background-color: rgba(255, 255, 255, 0.13);
     position: absolute;

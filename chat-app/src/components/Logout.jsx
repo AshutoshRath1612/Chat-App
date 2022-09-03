@@ -8,6 +8,7 @@ const Logout = () => {
     const navigate = useNavigate();
     const handleClick = ()=>{
         localStorage.clear();
+        sessionStorage.clear();
         navigate('/login');
     }
   return (

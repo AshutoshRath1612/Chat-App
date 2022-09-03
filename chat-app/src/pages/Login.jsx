@@ -18,8 +18,7 @@ const handleSubmit = async(e)=>{
   e.preventDefault();
     if (handleValidate()) {
       const { password, username } = values;
-      // axios.defaults.headers.post['Access-Control-Allow-Origin'] = "http://localhost:3000";
-      // axios.defaults.withCredentials =true;
+  
       const { data } = await axios.post(loginRoute, {
         username,
         password,
@@ -29,15 +28,16 @@ const handleSubmit = async(e)=>{
         toast.error(data.msg,toastOptions)
       }
       if(data.status===true){
-        localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+        localStorage.setItem('jwt',data.token)
+        sessionStorage.setItem('chat-app-user', JSON.stringify(data.user));
         navigate('/');
       }
     }
 }
 
 useEffect(()=>{
-  if(localStorage.getItem('chat-app-user')){
-    console.log(localStorage.getItem('chat-app-user'))
+  if(sessionStorage.getItem('chat-app-user')){
+    console.log(sessionStorage.getItem('chat-app-user'))
     navigate('/')
   }
 },[])

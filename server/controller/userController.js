@@ -12,7 +12,7 @@ const createToken = (id)=>{
 
 module.exports.register = async(req, res,next) => {
     try{
-        const { username, password, email } = req.body;
+        const { name, username, password, email } = req.body;
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck)
         return res.json({ msg: "Username already used", status: false })
@@ -23,14 +23,14 @@ module.exports.register = async(req, res,next) => {
     const salt = await bcrypt.genSalt();
     const hashedpassword = await bcrypt.hash(password, salt);
     const user = await User.create({
-        email, username, password: hashedpassword
+       name, email, username, password: hashedpassword
     })
 
     const token = createToken(user._id);
     res.cookie('jwt' , token , {httpOnly:true ,maxAge:maxAge*1000});
 
     delete user.password;
-    return res.json({user , status:true})
+    return res.json({user ,token, status:true})
     }
     catch(err){
        next(err);
@@ -52,7 +52,7 @@ module.exports.login = async(req, res,next) => {
 
 
     delete usernameCheck.password;
-     return res.json({user:usernameCheck , status:true})
+     return res.json({user:usernameCheck ,token, status:true})
     }
     catch(err){
         next(err);
@@ -63,11 +63,14 @@ module.exports.setavatar = async(req, res,next) => {
     try{
         const userId =req.params.id;
         const avatarImage = req.body.image;
+        const photoImage = req.body.photo;
+        console.log(photoImage)
         const userData = await User.findByIdAndUpdate(userId,{
             isAvatarImageSet:true,
             avatarImage,
+            photoImage
         })
-        return res.json({isSet:userData.isAvatarImageSet ,image:userData.avatarImage})
+        return res.json({isSet:userData.isAvatarImageSet ,image:userData.avatarImage , photo:userData.photoImage})
 
     }catch(err){
         next(err);
@@ -82,8 +85,9 @@ module.exports.logout = (req,res)=>{
 module.exports.allusers = async(req,res,next)=>{
     try{
         const users = await User.find({_id:{$ne:req.params.id}}).select([
-            "email","username","avatarImage","_id"
+           "name", "email","username","avatarImage","_id" , "photoImage"
         ]);
+        console.log(users)
         return res.json(users);
     }catch(err){
         next(err)

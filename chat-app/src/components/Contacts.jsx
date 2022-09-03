@@ -6,10 +6,28 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
+  let sent = "";
+  
+
+  if (
+    currentUser.avatarImage !== undefined &&
+    currentUser.photoImage !== undefined
+  )
+      sent = currentUser.photoImage;
+  else if (
+    currentUser.avatarImage !== undefined &&
+    currentUser.photoImage === undefined
+  )
+    sent = `data:image/svg+xml;base64 , ${currentUser.avatarImage}`;
+  else if (
+    currentUser.avatarImage === undefined &&
+    currentUser.photoImage !== undefined
+  )
+    sent = currentUser.photoImage;
   useEffect(() => {
     console.log(contacts);
     if (currentUser) {
-      setCurrentUserImage(currentUser.avatarImage);
+      setCurrentUserImage(sent);
       setCurrentUserName(currentUser.username);
     }
   }, [currentUser]);
@@ -17,6 +35,8 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
     setCurrentSelected(index);
     changeChat(contact);
   };
+  
+
   return (
     <>
       {currentUserImage && currentUserName && (
@@ -27,6 +47,19 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
+              let receive = "";
+              if (
+                contact.avatarImage !== undefined &&
+                contact.photoImage !== undefined
+              )
+                receive = contact.photoImage;
+              else if (
+                contact.avatarImage !== undefined &&
+                contact.photoImage === undefined)
+              receive = `data:image/svg+xml;base64 , ${contact.avatarImage}`;
+              else
+              receive = contact.photoImage;
+              console.log(contact)
               return (
                 <div
                   className={`contact ${
@@ -37,12 +70,13 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
                 >
                   <div className="avatar">
                     <img
-                      src={`data:image/svg+xml;base64, ${contact.avatarImage}`}
+                      src={receive}
                       alt="avatar"
+                      style={{borderRadius:"50%"}}
                     />
                   </div>
                   <div className="username">
-                    <h3>{contact.username}</h3>
+                    <h3>{contact.name}</h3>
                   </div>
                 </div>
               );
@@ -51,8 +85,9 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
           <div className="current-user">
             <div className="avatar">
               <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
+                src={sent}
                 alt="avatar"
+                style={{borderRadius: "50%"}}
               />
             </div>
             <div className="username">

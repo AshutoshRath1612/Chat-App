@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const messageRoutes =require('./routes/messagesRoutes')
 const cookieParser = require('cookie-parser');
 const socket =require('socket.io');
+const bodyParser = require('body-parser')
 
 require('dotenv').config();
 
@@ -12,15 +13,14 @@ const app =express();
 
 const corsConfig = {
     credentials: true,
-<<<<<<< HEAD
-    origin: true,
-=======
     origin: "http://localhost:3000",
->>>>>>> 9cb5fd93b55e38761d7811d4f435d862a25b6579
 };
 app.use(cors(corsConfig));
-app.use(express.json())
+// app.use(express.json())
 app.use(cookieParser());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 
 // app.get('*',checkUser)

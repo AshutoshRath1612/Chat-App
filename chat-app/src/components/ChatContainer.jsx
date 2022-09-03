@@ -14,7 +14,7 @@ const ChatContainer = ({ currentChat , currentUser ,socket }) => {
   const [arrivalMsg ,setArrivalMsg]= useState(null);
 
   const scrollRef = useRef();
-
+  // console.log(currentChat)
   useEffect(()=>{
     if(currentChat){
     async function allmessage(){
@@ -46,9 +46,13 @@ const ChatContainer = ({ currentChat , currentUser ,socket }) => {
 
   useEffect(()=>{
     if(socket.current){
+      console.log("User online")
       socket.current.on('msg-receive' ,(msg)=>{
         setArrivalMsg({fromSelf:false ,message:msg});
       });
+    }
+    else{
+      console.log("User offline")
     }
   },[])
 
@@ -62,23 +66,40 @@ const ChatContainer = ({ currentChat , currentUser ,socket }) => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+
+  let receive = "";
+  if (
+    currentChat.avatarImage !== undefined &&
+    currentChat.photoImage !== undefined
+  )
+    receive = currentChat.photoImage;
+  else if (
+    currentChat.avatarImage !== undefined &&
+    currentChat.photoImage === undefined)
+  receive = `data:image/svg+xml;base64 , ${currentChat.avatarImage}`;
+  else
+  receive = currentChat.photoImage;
+
+
+
   return (
     <Container>
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
-            <img
-              src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
+            <img style={{borderRadius:"50%"}}
+              src={receive}
               alt=""
             />
           </div>
           <div className="username">
-            <h3>{currentChat.username}</h3>
+            <h3>{currentChat.name}</h3>
+            <h5>{currentChat.username}</h5>
           </div>
         </div>
         <Logout />
       </div>
-      <Messages messages={messages} />
+      <Messages messages={messages} currentChat={currentChat} currentUser={currentUser} />
       <ChatInput handleSendMsg={handlesendmessage} />
     </Container>
   );
@@ -97,10 +118,12 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+    margin-top: 1rem;
     .user-details {
       display: flex;
       align-items: center;
       gap: 1rem;
+      margin-top: 1rem;
       .avatar {
         img {
           height: 3rem;
@@ -109,6 +132,9 @@ const Container = styled.div`
       .username {
         h3 {
           color: white;
+        }
+        h5{
+          color: blue
         }
       }
     }
