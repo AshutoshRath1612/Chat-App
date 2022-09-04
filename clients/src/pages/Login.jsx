@@ -86,7 +86,7 @@ const handleChange = (e)=>{
             <div className="shape"></div>
             <div className="shape"></div>
           </div>
-        <Tilty  reverse axis="x" scale={1.1} perspective={900} reset={true}>
+        <Tilty  reverse axis="x" scale={1.01} perspective={900} reset={true}>
           <form onSubmit={(e)=>handleSubmit(e)}>
             <h3>Login Here</h3>
 
@@ -124,40 +124,38 @@ const LoginForm = styled.div`
     overflow: hidden;
   }
   .formContainer {
-    transform: translate(10px, 430px);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+    align-items: center;
   }
   .background {
+    display: flex;
     width: 430px;
-    height: 520px;
+    height: 660px;
     position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .background .shape {
     height: 200px;
     width: 200px;
-    position: absolute;
     border-radius: 50%;
   }
   .shape:first-child {
     background: linear-gradient(#1845ad, #23a2f6);
-    left: -80px;
-    top: -80px;
   }
   .shape:last-child {
     background: linear-gradient(to right, #ff512f, #f09819);
-    right: -30px;
-    bottom: -80px;
+    margin-left: 15rem;
   }
   form {
-    height: 520px;
+    display: block;
+    margin: 11rem auto;
     width: 400px;
     background-color: rgba(255, 255, 255, 0.13);
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -225,6 +223,18 @@ const LoginForm = styled.div`
     color: black;
     /* margin-bottom: 0px; */
     font-weight: bold;
+  }
+  @media screen and (max-width: 400px){
+    .formContainer{
+      margin-left: 6rem;
+    }
+    .background .shape {
+    height: 150px;
+    width: 150px;
+  }
+  form{
+    width: 285px;
+  }
   }
 `;
 export default Login;

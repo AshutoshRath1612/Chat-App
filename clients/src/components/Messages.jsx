@@ -8,30 +8,30 @@ const Messages = ({ messages, currentChat, currentUser }) => {
   let sent = "";
   let receive = "";
   if (
-    currentChat.avatarImage !== undefined &&
-    currentChat.photoImage !== undefined
+    currentChat.avatarImage !== "undefined" &&
+    currentChat.photoImage !== "undefined"
   )
     receive = currentChat.photoImage;
   else if (
-    currentChat.avatarImage !== undefined &&
-    currentChat.photoImage === undefined)
+    currentChat.avatarImage !== "undefined" &&
+    currentChat.photoImage === "undefined")
   receive = `data:image/svg+xml;base64 , ${currentChat.avatarImage}`;
   else
   receive = currentChat.photoImage;
 
   if (
-    currentUser.avatarImage !== undefined &&
-    currentUser.photoImage !== undefined
+    currentUser.avatarImage !== "undefined" &&
+    currentUser.photoImage !== "undefined"
   )
       sent = currentUser.photoImage;
   else if (
-    currentUser.avatarImage !== undefined &&
-    currentUser.photoImage === undefined
+    currentUser.avatarImage !== "undefined" &&
+    currentUser.photoImage === "undefined"
   )
     sent = `data:image/svg+xml;base64 , ${currentUser.avatarImage}`;
   else if (
-    currentUser.avatarImage === undefined &&
-    currentUser.photoImage !== undefined
+    currentUser.avatarImage === "undefined" &&
+    currentUser.photoImage !== "undefined"
   )
     sent = currentUser.photoImage;
 
@@ -96,6 +96,18 @@ const Container = styled.div`
         }
         p {
           margin: 0;
+        }
+        @media screen and (max-width:710px){
+          p{
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+    @media screen and (max-width:710px){
+      .message{
+        img{
+          height: 2rem;
         }
       }
     }

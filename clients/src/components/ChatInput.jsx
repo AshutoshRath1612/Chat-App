@@ -61,6 +61,12 @@ const Container = styled.div`
   background: linear-gradient(179deg, #1c112a ,#242444, #1c112a);
   padding: 1rem 2rem;
   padding-bottom: 0.3rem;
+  @media screen and (max-width:1072px){
+    padding-bottom: 2rem;
+  }
+  @media screen and (max-width:710px){
+    height:2rem;
+  }
   .button-container {
     display: flex;
     align-items: center;
@@ -136,6 +142,14 @@ const Container = styled.div`
       svg {
         font-size: 2rem;
         color: white;
+      }
+    }
+    @media screen and (max-width:710px){
+      input{
+        width: 105%;
+      }
+      button{
+        padding: 0rem 0.5rem;
       }
     }
   }

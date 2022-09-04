@@ -169,9 +169,17 @@ const Container = styled.div`
     h1 {
       color: white;
     }
+    @media screen and (max-width:600px){
+      h1{
+
+        font-size: 1.5rem;
+      }
+    }
   }
+
   .avatars {
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
     .avatar {
       border: 0.4rem solid transparent;
@@ -184,6 +192,16 @@ const Container = styled.div`
       img {
         height: 6rem;
       }
+      @media screen and (max-width:600px){
+      img{
+        height: 4rem;
+      }
+    }
+      @media screen and (max-width:450px){
+      img{
+        height: 3rem;
+      }
+    }
     }
     .selected {
       border: 0.4rem solid #4e0eff;

@@ -44,7 +44,6 @@ function Chat() {
       
       if(currentUser.isAvatarImageSet){
         const data= await axios.get(`${alluserRoutes}/${currentUser._id}`)
-        console.log(data.data)
         setContacts(data.data);
       }
       else{
@@ -59,7 +58,6 @@ function Chat() {
   const handleChatChange = (chat)=>{
     setcurrentChat(chat);
   }
-  console.log(currentChat)
   return (
     <>
     {isLoaded && (
@@ -69,7 +67,6 @@ function Chat() {
         contacts={contacts} 
         currentUser={currentUser} 
         changeChat={handleChatChange}/>
-        {console.log(currentChat , currentUser)}
        
         { isLoaded &&
           currentChat === undefined ? (
@@ -103,6 +100,19 @@ const Container =styled.div`
     @media screen and (min-width:720px) and (max-width:1080px){
       grid-template-columns: 35% 65%;
     }
+    @media screen and (min-width: 560px) and (max-width:720px){
+      grid-template-columns: 45% 55%;
+    }
+    @media screen and  (max-width:560px){
+      grid-template-columns: 50% 50%;
+    }
+    @media screen and (max-width:400px){
+    width: 107vw;
+  }
+  }
+  @media screen and (max-width:400px){
+    height: 107vh;
+    width: 107vw;
   }
 `;
 

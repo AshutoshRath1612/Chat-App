@@ -51,9 +51,6 @@ const ChatContainer = ({ currentChat , currentUser ,socket }) => {
         setArrivalMsg({fromSelf:false ,message:msg});
       });
     }
-    else{
-      console.log("User offline")
-    }
   },[])
 
   useEffect(()=>{
@@ -69,13 +66,13 @@ const ChatContainer = ({ currentChat , currentUser ,socket }) => {
 
   let receive = "";
   if (
-    currentChat.avatarImage !== undefined &&
-    currentChat.photoImage !== undefined
+    currentChat.avatarImage !== "undefined" &&
+    currentChat.photoImage !== "undefined"
   )
     receive = currentChat.photoImage;
   else if (
-    currentChat.avatarImage !== undefined &&
-    currentChat.photoImage === undefined)
+    currentChat.avatarImage !== "undefined" &&
+    currentChat.photoImage === "undefined")
   receive = `data:image/svg+xml;base64 , ${currentChat.avatarImage}`;
   else
   receive = currentChat.photoImage;
@@ -137,6 +134,21 @@ const Container = styled.div`
           color: blue
         }
       }
+      @media screen and (max-width:710px){
+        .username{
+          h3{
+          font-size: 0.8rem;
+        }
+        h5{
+          font-size: 0.6rem;
+        }
+      }
+      .avatar {
+        img {
+          height: 2.5rem;
+        }
+      }
+    }
     }
   }
   

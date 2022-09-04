@@ -10,22 +10,23 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
   
 
   if (
-    currentUser.avatarImage !== undefined &&
-    currentUser.photoImage !== undefined
-  )
+    currentUser.avatarImage !== "undefined" &&
+    currentUser.photoImage !== "undefined"
+  ){
       sent = currentUser.photoImage;
+      
+  }
   else if (
-    currentUser.avatarImage !== undefined &&
-    currentUser.photoImage === undefined
+    currentUser.avatarImage !== "undefined" &&
+    currentUser.photoImage === "undefined"
   )
     sent = `data:image/svg+xml;base64 , ${currentUser.avatarImage}`;
   else if (
-    currentUser.avatarImage === undefined &&
-    currentUser.photoImage !== undefined
+    currentUser.avatarImage === "undefined" &&
+    currentUser.photoImage !== "undefined"
   )
     sent = currentUser.photoImage;
   useEffect(() => {
-    console.log(contacts);
     if (currentUser) {
       setCurrentUserImage(sent);
       setCurrentUserName(currentUser.username);
@@ -36,7 +37,7 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
     changeChat(contact);
   };
   
-
+  
   return (
     <>
       {currentUserImage && currentUserName && (
@@ -49,17 +50,16 @@ const Contacts = ( {contacts, currentUser ,changeChat} ) => {
             {contacts.map((contact, index) => {
               let receive = "";
               if (
-                contact.avatarImage !== undefined &&
-                contact.photoImage !== undefined
+                contact.avatarImage !== "undefined" &&
+                contact.photoImage !== 'undefined'
               )
                 receive = contact.photoImage;
               else if (
-                contact.avatarImage !== undefined &&
-                contact.photoImage === undefined)
+                contact.avatarImage !== "undefined" &&
+                contact.photoImage === "undefined")
               receive = `data:image/svg+xml;base64 , ${contact.avatarImage}`;
               else
               receive = contact.photoImage;
-              console.log(contact)
               return (
                 <div
                   className={`contact ${
@@ -148,10 +148,19 @@ const Container = styled.div`
           height: 3rem;
         }
       }
-      .usernmae {
+      @media screen and (max-width:1080px){
+        .username {
         h3 {
-          color: white;
+          font-size: 1rem;
         }
+      }
+    }
+      @media screen and (max-width:1080px){
+        .username {
+        h3 {
+          font-size: 0.8rem;
+        }
+      }
       }
     }
     .selected {
@@ -175,11 +184,18 @@ const Container = styled.div`
         color: white;
       }
     }
-    @media screen and (min-width:720px) and (max-width:1080px){
+    @media screen  and (max-width:1080px){
        gap:0.5rem;
        .username{
         h2{
             font-size:1rem;
+        }
+       }
+    }
+    @media screen  and (max-width:1080px){
+       .username{
+        h2{
+            font-size:0.8rem;
         }
        }
     }

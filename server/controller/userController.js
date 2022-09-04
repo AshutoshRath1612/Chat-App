@@ -64,7 +64,6 @@ module.exports.setavatar = async(req, res,next) => {
         const userId =req.params.id;
         const avatarImage = req.body.image;
         const photoImage = req.body.photo;
-        console.log(photoImage)
         const userData = await User.findByIdAndUpdate(userId,{
             isAvatarImageSet:true,
             avatarImage,
@@ -87,7 +86,6 @@ module.exports.allusers = async(req,res,next)=>{
         const users = await User.find({_id:{$ne:req.params.id}}).select([
            "name", "email","username","avatarImage","_id" , "photoImage"
         ]);
-        console.log(users)
         return res.json(users);
     }catch(err){
         next(err)

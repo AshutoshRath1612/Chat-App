@@ -97,7 +97,7 @@ function Register() {
             <div className="shape"></div>
             <div className="shape"></div>
           </div>
-          <Tilty reverse axis="x" scale={1.1} perspective={900} reset={true}>
+          <Tilty reverse axis="x" scale={1.01} perspective={900} reset={true}>
             <form onSubmit={(e) => handleSubmit(e)}>
               <h3>Sign Up Here</h3>
 
@@ -174,40 +174,38 @@ const FormContainer = styled.div`
     overflow: hidden;
   }
   .formContainer {
-    transform: translate(10px, 430px);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+    align-items: center;
   }
   .background {
+    display: flex;
     width: 430px;
-    height: 520px;
+    height: 850px;
     position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .background .shape {
     height: 200px;
     width: 200px;
-    position: absolute;
     border-radius: 50%;
   }
   .shape:first-child {
     background: linear-gradient(#1845ad, #23a2f6);
-    left: -80px;
-    top: -160px;
   }
   .shape:last-child {
     background: linear-gradient(to right, #ff512f, #f09819);
-    right: -30px;
-    bottom: -188px;
+    margin-left: 15rem;
   }
   form {
-    height: 740px;
+    display: block;
+    margin: 2rem auto;
     width: 400px;
     background-color: rgba(255, 255, 255, 0.13);
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -272,6 +270,18 @@ const FormContainer = styled.div`
   }
   .details a {
     color: violet;
+  }
+  @media screen and (max-width: 400px){
+    .formContainer{
+      margin-left: 2rem;
+    }
+    .background .shape {
+    height: 150px;
+    width: 150px;
+  }
+  form{
+    width: 300px;
+  }
   }
 `;
 
